@@ -4,11 +4,11 @@ WASP=$HOME/WASP-master
 DATA_DIR=/homes/hwheeler/Data/gEUVADIS
 SAMTOOLS=.../anaconda2/bin/samtools
 BOWTIE=.../anaconda2/bin/bowtie2
-INDEX= indexed genome ?? TBD
+# INDEX= indexed genome ?? TBD
 
 #create needed files 
 $WASP/snp2h5/snp2h5 --chrom $DATA_DIR/chromInfo.hg19.txt \ 
-		    --format vcf \ > 
+		    --format vcf \ 
 		    --snp_index $DATA_DIR/genotypes/snp_index.h5 \
 		    --geno_prob $DATA_DIR/genotypes/geno_probs.h5 \
 		    --snp_tab $DATA_DIR/genotypes/snp_tab.h5 \
@@ -22,7 +22,8 @@ $WASP/snp2h5/snp2h5 --chrom $DATA_DIR/chromInfo.hg19.txt \
 # first, we need to un-map the reads to FASTQ
 #iterate through each bam file and map to FASTQ
 
-samtools bam2fq x.bam > x.fastq
+# this is how samtools can map to the fastq
+# samtools bam2fq x.bam > x.fastq
 
 # Map reads using bowtie2 (or another mapping tool of your choice)
 bowtie2 -x $INDEX -1 $DATA_DIR/sim_pe_reads1.fastq.gz \
