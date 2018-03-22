@@ -1,0 +1,4 @@
+Downloaded anaconda3 distribution into my compbio directory and into path 
+"export PATH="$HOME/anaconda3/bin:$PATH" < command to add
+Downloaded WASP into the directory and added HD4F library into the path
+"export LD_LIBRARY_PATH=$HOME/anaconda/lib:$LD_LIBRARY_PATH" < command to add
