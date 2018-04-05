@@ -6,22 +6,21 @@ PATH=$PATH:$LeafcutterLoc/scripts
 
 if [ -e juncfiles.txt ]
 then 
-	rm juncfiles
+	rm juncfiles.txt
 fi 
-for bamfile in "ls $Bamlocation/*.bam"
-do 
+for bamfile in `ls $Bamlocation/*.bam`
+do         
 	echo Converting $bamfile to $bamfile.junc
-	sh $LeafcutterLoc/scripts/bam2junc.sh $bamfile $bamfil.junc
+	sh $LeafcutterLoc/scripts/bam2junc.sh $bamfile $bamfile.junc
 	echo $bamfile.junc >> juncfiles.txt
 done
 
 python $LeafcutterLoc/clustering/leafcutter_cluster.py -j juncfiles.txt -m 50 -o testYRIvsEU -l 500000
 
-if [ -e test_diff_intron.txt ]
+if [ -e diff_intron.txt ]
 then
-	rm test_diff_intron.txt
+	rm diff_intron.txt
 fi
-
 for lib in `cut -f 3 -d'/' $Bamlocation/juncfiles.txt | cut -f 1-4 -d'.' | grep YRI`
 do
 	echo $lib YRI >> diff_intron.txt
