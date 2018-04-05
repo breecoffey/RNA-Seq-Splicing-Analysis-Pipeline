@@ -1,59 +1,32 @@
 # environment vars
 
-WASP=$HOME/WASP-master
-DATA_DIR=/homes/hwheeler/Data/gEUVADIS
-SAMTOOLS=.../anaconda2/bin/samtools
-BOWTIE=.../anaconda2/bin/bowtie2
-# INDEX= indexed genome ?? TBD
+#WASP=$HOME/WASP-master
+#DATA=/homes/hwheeler/Data/gEUVADIS_RNASeq
+#DATA_DIR=/homes/bcoffey2/WASP-master
+#SAMTOOLS=.../anaconda2/bin/samtools
+#BOWTIE=.../anaconda2/bin/bowtie2
+#INDEX= indexed genome ?? TBD
 
-#create needed files 
-$WASP/snp2h5/snp2h5 --chrom $DATA_DIR/chromInfo.hg19.txt \ 
-		    --format vcf \ 
-		    --snp_index $DATA_DIR/genotypes/snp_index.h5 \
-		    --geno_prob $DATA_DIR/genotypes/geno_probs.h5 \
-		    --snp_tab $DATA_DIR/genotypes/snp_tab.h5 \
-		    --haplotype $DATA_DIR/genotypes/haps.h5 \
-		    --samples $DATA_DIR/genotypes/YRI_samples.txt \
-		    $DATA_DIR/genotypes/chr*.hg19.impute2.gz \
-		    $DATA_DIR/genotypes/chr*.hg19.impute2_haps.gz 
-#list of chromosomes for relevant genome assembly; chr name and chr length
-#needs to contain genotype likelihoods for geno_prob output
-# this is where VCF goes
-# first, we need to un-map the reads to FASTQ
-#iterate through each bam file and map to FASTQ
+snp2h5 --chrom WASP-master/chromInfo.txt --format vcf --snp_index snp_index.h5 --snp_tab snp_tab.h5 --geno_prob geno_probs.h5 --haplotype haps.h5 /homes/hwheeler/Data/gEUVADIS_RNASeq/GEUVADIS.chr1.PH1PH2_465.IMPFRQFILT_BIALLELIC_PH.annotv2.genotypes.vcf.gz
 
-# this is how samtools can map to the fastq
-# samtools bam2fq x.bam > x.fastq
-
-# Map reads using bowtie2 (or another mapping tool of your choice)
-bowtie2 -x $INDEX -1 $DATA_DIR/sim_pe_reads1.fastq.gz \
-	-2 $DATA_DIR/sim_pe_reads2.fastq.gz \
-    | samtools view -S -b -q 10 - > $DATA_DIR/sim_pe_reads.bam
+# Map reads using bowtie2
+bowtie2 -x index_genome/hg19 -1 /homes/hwheeler/Data/gEUVADIS_RNASeq/ERR188030_1.fastq.gz -2 /homes/hwheeler/Data/gEUVADIS_RNASeq/ERR188030_2.fastq.gz | samtools view -S -b -q 10 - > /homes/bcoffey2/ERR188030.bam
 
 # Pull out reads that need to be remapped to check for bias
 # Use the -p option for paired-end reads.
-python $WASP/mapping/find_intersecting_snps.py \
-       --is_paired_end \
-       --output_dir $DATA_DIR  \
-       --snp_index $DATA_DIR/genotypes/snp_index.h5 \
-       --snp_tab $DATA_DIR/genotypes/snp_tab.h5 \
-       --haplotype $DATA_DIR/genotypes/haps.h5 \
-       --samples $DATA_DIR/H3K27ac/samples.txt \
-       $DATA_DIR/sim_pe_reads.bam <bam file to test
+python /homes/hwheeler/WASP/mapping/find_intersecting_snps.py --is_paired_end --output_dir /homes/bcoffey2 --snp_index snp_index.h5 --haplotype haps.h5 --snp_tab snp_tab.h5 ERR188030.bam
 
 #remap the reads 
 
-bowtie2 -x bowtie2_index/hg37 \
-               -1 find_intersecting_snps/${SAMPLE_NAME}_1.remap.fq.gz \
-               -2 find_intersecting_snps/${SAMPLE_NAME}_2.remap.fq.gz \
-           | samtools view -b -q 10 - > map2/${SAMPLE_NAME}.bam
-     samtools sort -o map2/${SAMPLE_NAME}.sort.bam map2/${SAMPLE_NAME}.bam
-     samtools index map2/${SAMPLE_NAME}.sort.bam
+bowtie2 -x index_genome/hg19 -1 find_intersecting_snps/ERR188030_1.remap.fq.gz -2 find_intersecting_snps/ERR188030_2.remap.fq.gz | samtools view -b -q 10 - > map2/ERR188030.bam
+
+samtools sort -o map2/ERR188030.sort.bam map2/${SAMPLE_NAME}.bam
+samtools index map2/ERR188030.sort.bam
 
 python mapping/filter_remapped_reads.py \
-       find_intersection_snps/${SAMPLE_NAME}.to.remap.bam \
-       map2/${SAMPLE_NAME}.sort.bam \
-       filter_remapped_reads/${SAMPLE_NAME}.keep.bam
+       find_intersection_snps/ERR188030.to.remap.bam \
+       map2/ERR188030.sort.bam \
+       filter_remapped_reads/ERR188030.keep.bam
 
 samtools merge merge/${SAMPLE_NAME}.keep.merge.bam \
               filter_remapped_reads/${SAMPLE_NAME}.keep.bam  \
