@@ -21,15 +21,16 @@ if [ -e diff_intron.txt ]
 then
 	rm diff_intron.txt
 fi
-for lib in `cut -f 3 -d'/' $Bamlocation/juncfiles.txt | cut -f 1-4 -d'.' | grep YRI`
+for lib in `cut -f 2 -d'/' $Bamlocation/juncfiles.txt | cut -f 1-4 -d'.' | grep NA`
 do
-	echo $lib YRI >> diff_intron.txt
+	echo $lib NA >> diff_intron.txt
 done
 
-for lib in `cut -f 3 -d'/' $Bamlocation/juncfiles.txt | cut -f 1-4 -d'.' | grep CEU`
+for lib in `cut -f 2 -d'/' $Bamlocation/juncfiles.txt | cut -f 1-4 -d'.' | grep HG`
 do
-	echo $lib CEU >> diff_intron.txt
+	echo $lib HG >> diff_intron.txt
 done
 
 $LeafcutterLoc/scripts/leafcutter_ds.R --num_threads 4 $Bamlocation/testYRIvsEU_perind_numers.counts.gz $Bamlocation/diff_intron.txt
 
+/usr/local/bin/anaconda32/bin/python $LeafcutterLoc/scripts/prepare_phenotype_table.py ./testYRIvsEU_perind.counts.gz -p 10
