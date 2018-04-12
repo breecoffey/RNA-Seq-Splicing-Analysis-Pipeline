@@ -23,7 +23,7 @@ with gzip.open(args.VCF) as file: #open the vcf file
 	chrom_num = words[0] #grab chromosome number
 	chrom_loc = words[1] #grab chromosome location
         snp_id = words[2] #grab snp id
-	loc_output.append(str(snp_id) + '\t' + "chr"+str(chrom_num) + '\t' + str(chrom_loc)) #append together for the location output file
+	#loc_output.append(str(snp_id) + '\t' + "chr"+str(chrom_num) + '\t' + str(chrom_loc)) #append together for the location output file
         
 	values = words[7].split(';') #grab the 7th column with GT info for each sample
 	af_index = 2 #set initial allele freq to index 2
@@ -54,13 +54,13 @@ with gzip.open(args.VCF) as file: #open the vcf file
                 else:
                     continue
 		
-	    filt = str(snp_id) convert snpid to string
+	    filt = str(snp_id) #convert snpid to string
 	    if genotypes == []: #if no values, go to next snp
 		continue
             for k in genotypes:
                 filt += '\t' + str(k)
             filtered.append(filt) #append filtered GT values by tab delimited
-
+	    loc_output.append(str(snp_id) + '\t' + "chr"+str(chrom_num) + '\t' + str(chrom_loc))
 	#write to output file
 with gzip.open(geno, 'w') as output_file:
     samples = header.split('\t') #sample IDs
