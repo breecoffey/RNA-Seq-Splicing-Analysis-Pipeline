@@ -12,7 +12,7 @@ with open(args.qqnorminput, 'r') as qq:
 	columns = []
 	for line in qq:
 		columns = line.split('\t')
-		loc_line = '\t'.join([columns[3],columns[0],columns[1],columns[2]])
+		loc_line = '\t'.join([columns[3],'chr'+columns[0],columns[1],columns[2]])
 		gene_loc.append(loc_line)
 		exp_line = '\t'.join(columns[3:])
 		gene_exp.append(exp_line)			
@@ -29,5 +29,5 @@ with open(location_name, 'w') as output_file:
 with open(expression_name, 'w') as output_file:
     #write out
     for line in gene_exp:
-        output_file.write((line + '\n').encode('utf-8'))
+        output_file.write((line).encode('utf-8'))
 
