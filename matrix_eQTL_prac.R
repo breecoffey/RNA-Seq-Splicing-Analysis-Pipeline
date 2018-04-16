@@ -18,7 +18,7 @@ useModel = modelLINEAR; # modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 
 # Genotype file name
 SNP_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/chr1test");
-snps_location_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/SNPfiles/SNPLoc_test.vcf.gz");
+snps_location_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/SNPLoc_chr1test.vcf.gz");
 
 # Gene expression file name
 expression_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/Gene_expression_chr1");
