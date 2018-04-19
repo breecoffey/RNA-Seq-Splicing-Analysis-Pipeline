@@ -1,3 +1,8 @@
+#argument 1 is always SNP genotype data
+#argument 2 is always SNP location
+#argument 3 is always Gene expression data (in this case intron excision ratios)
+#argument 4 is always Gene location (intron start and stop)
+arguments <- commandArgs(trailingOnly = T)
 # source("Matrix_eQTL_R/Matrix_eQTL_engine.r");
 library(MatrixEQTL)
 
@@ -11,18 +16,22 @@ base.dir = setwd ("/homes/" );
 #}
 
 #base.dir = setwd (n)
-
+if (nchar(arguments[4]) == 18 ){
+  CHRnum <- substr(arguments[4], 15, 18)
+} else if (nchar(arguments[4] == 19)) {
+  CHRnum <- substr(arguments[4], 15, 19)
+}
 ## Settings
 # Linear model to use, modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 useModel = modelLINEAR; # modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 
 # Genotype file name
-SNP_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/chr1test");
-snps_location_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/SNPLoc_chr1test.vcf.gz");
+SNP_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[1]);
+snps_location_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[2]);
 
 # Gene expression file name
-expression_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/Gene_expression_chr1");
-gene_location_file_name = paste0(base.dir, "/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/Gene_location_chr1");
+expression_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[3]);
+gene_location_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[4]);
 
 # Covariates file name
 # Set to character() for no covariates
@@ -94,13 +103,21 @@ me = Matrix_eQTL_main(
   noFDRsaveMemory = FALSE);
 unlink(output_file_name_tra);
 unlink(output_file_name_cis);
+library(data.table)
 
 ## Results:
+CisOutput<- paste("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/cis_eQTLs_", CHRnum, ".txt", sep = "") #must hardcode output path for this to work
 cat('Analysis done in: ', me$time.in.sec, ' seconds', '\n');
 cat('Detected local eQTLs:', '\n');
-show(me$cis$eqtls)
-cat('Detected distant eQTLs:', '\n');
-show(me$trans$eqtls)
+fwrite(me$cis$eqtls, CisOutput, sep = '\t')
 
-## Make the histogram of local and distant p-values
+TransOutput <- paste("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/trans_eQTLs_", CHRnum, ".txt", sep = "") #must hardcode output path for this to work
+cat('Analysis done in: ', me$time.in.sec, ' seconds', '\n');
+cat('Detected distant eQTLs:', '\n');
+fwrite(me$trans$eqtls, TransOutput, sep = '\t')
+
+## Malske the histogram of local and distant p-values
+PlotOutput = paste("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/Cis_trans_hist_", CHRnum, ".pdf", sep = "") #must hardcode path here as well
+pdf(PlotOutput)
 plot(me)
+dev.off()
