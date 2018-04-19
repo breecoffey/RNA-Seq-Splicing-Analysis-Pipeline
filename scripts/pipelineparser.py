@@ -6,8 +6,8 @@ parser = argparse.ArgumentParser(description='Input & Output Files') #create the
 parser.add_argument('VCF', help='The VCF file to open') #variable for VCF file
 args = parser.parse_args() #parse the arguments
 
-geno = "SNPGenotypes_" + args.VCF
-snpsloc = "SNPLoc_" + args.VCF
+#geno = "SNPGenotypes_" + args.VCF
+#snpsloc = "SNPLoc_" + args.VCF
 
 filtered = [] #array to store filtered snp info
 loc_output = [] #array for snp chrom location output file
@@ -62,6 +62,10 @@ with gzip.open(args.VCF) as file: #open the vcf file
             filtered.append(filt) #append filtered GT values by tab delimited
 	    loc_output.append(str(snp_id) + '\t' + "chr"+str(chrom_num) + '\t' + str(chrom_loc))
 	#write to output file
+
+geno = "SNPGenotypes_" + chrom_num
+snpsloc = "SNPLoc_" + chrom_num	
+
 with gzip.open(geno, 'w') as output_file:
     samples = header.split('\t') #sample IDs
     output_file.write('id') 
