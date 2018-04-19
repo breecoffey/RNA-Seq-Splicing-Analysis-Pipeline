@@ -6,8 +6,8 @@ parser = argparse.ArgumentParser(description='Input & Output Files') #create the
 parser.add_argument('VCF', help='The VCF file to open') #variable for VCF file
 args = parser.parse_args() #parse the arguments
 
-geno = "SNPGenotypes_" + args.VCF
-snpsloc = "SNPLoc_" + args.VCF
+geno = "SNPGenotypes_chr22"
+snpsloc = "SNPLoc_chr22"
 
 filtered = [] #array to store filtered snp info
 loc_output = [] #array for snp chrom location output file

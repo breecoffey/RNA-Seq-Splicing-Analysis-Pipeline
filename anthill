@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#  pipeline.sh
+#  
+#
+#  Created by Bree Coffey on 4/12/18.
+#  
+
+echo Welcome to the RNA-Seq Splicing Analysis Pipeline!
+echo Are your VCF files parsed into genotypes and chromosome locations?
+
+read -p '[y/n]: ' answer
+
+if [ "$answer" == "n" ] || [ "$answer" == "N" ]
+then
+	read -p "VCF path: " VCF
+
+	python pipelineparser.py $VCF
+
+fi
+
+if [ "$answer" == "y" ] || [ "$answer" == "Y" ]
+fi
+
+read -p '.bam file directory' bams
+read -p 'LeafCutter install directory' leaf
+
+echo Running LeafCutter
+./leaf-command $bams $leaf
+
+for i in {1..23}; do
+python file_order.py "SNPGenotypes_chr"$i "Gene_expression_chr"$i "ReorderedSNPGenotype_chr"$i;
+done
+
+#SNP Geno, SNP Location, GeneExp, GeneLocation
+
+echo Running Matrix eQTL
+for j in {1..23}; do
+Rscript matrix_eQTL_prac.R "ReorderedSNPGenotype_chr"$j "SNPLoc_chr"$j "Gene_expression_chr"$j "Gene_location_chr"$j;
+done
+
+
