@@ -1,6 +1,6 @@
 # RNA Seq Splicing Analysis Pipeline
 
-# Overview 
+## Overview 
 This splicing analysis pipeline is a novel compilation of computational biology tools that quantifies RNA splicing and performs sQTL mapping.
 
 ## Software Requirements
@@ -9,7 +9,7 @@ This splicing analysis pipeline is a novel compilation of computational biology 
   * The pandas module should also be installed.
 * R
 
-## Programs which should be in your PATH
+### Programs which should be in your PATH
 * [LeafCutter](https://github.com/davidaknowles/leafcutter)
 * [Matrix eQTL](http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/)
 
@@ -24,3 +24,6 @@ This splicing analysis pipeline is a novel compilation of computational biology 
   * Reorders the samples within the Genotype file to match the output from LeafCutter's gene expression files.
 * matrix_eQTL_parse.R
   * Tests for association between SNPs and the introns to find which are associated with splicing
+* AntHill
+  * Runs all scripts in correct order and outputs intron excision ratios and sQTLs
+  
