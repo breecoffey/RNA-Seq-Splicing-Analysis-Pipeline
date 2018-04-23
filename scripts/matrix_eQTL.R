@@ -26,12 +26,12 @@ if (nchar(arguments[4]) == 18 ){
 useModel = modelLINEAR; # modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 
 # Genotype file name
-SNP_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[1]);
-snps_location_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[2]);
+SNP_file_name = arguments[1];
+snps_location_file_name = arguments[2];
 
 # Gene expression file name
-expression_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[3]);
-gene_location_file_name = paste0("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/", arguments[4]);
+expression_file_name = arguments[3];
+gene_location_file_name = arguments[4];
 
 # Covariates file name
 # Set to character() for no covariates
@@ -106,18 +106,18 @@ unlink(output_file_name_cis);
 library(data.table)
 
 ## Results:
-CisOutput<- paste("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/cis_eQTLs_", CHRnum, ".txt", sep = "") #must hardcode output path for this to work
+CisOutput<- paste("./cis_eQTLs_", CHRnum, ".txt", sep = "")
 cat('Analysis done in: ', me$time.in.sec, ' seconds', '\n');
 cat('Detected local eQTLs:', '\n');
 fwrite(me$cis$eqtls, CisOutput, sep = '\t')
 
-TransOutput <- paste("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/trans_eQTLs_", CHRnum, ".txt", sep = "") #must hardcode output path for this to work
+TransOutput <- paste("./trans_eQTLs_", CHRnum, ".txt", sep = "") #must hardcode output path for this to work
 cat('Analysis done in: ', me$time.in.sec, ' seconds', '\n');
 cat('Detected distant eQTLs:', '\n');
 fwrite(me$trans$eqtls, TransOutput, sep = '\t')
 
 ## Malske the histogram of local and distant p-values
-PlotOutput = paste("/homes/rschubert1/RNA-Seq-Splicing-Analysis-Pipeline/Cis_trans_hist_", CHRnum, ".pdf", sep = "") #must hardcode path here as well
+PlotOutput = paste("./Cis_trans_hist_", CHRnum, ".pdf", sep = "") #must hardcode path here as well
 pdf(PlotOutput)
 plot(me)
 dev.off()
