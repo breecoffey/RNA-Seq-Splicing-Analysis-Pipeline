@@ -30,6 +30,7 @@ echo Running LeafCutter
 
 for i in {1..23}; do
 python file_order.py "SNPGenotypes_chr"$i "Gene_expression_chr"$i "ReorderedSNPGenotype_chr"$i;
+cut -f 2- "ReorderedSNPGenotype_chr"$i > "ReorderedSNPGenotype_fin_chr"$i
 done
 
 #SNP Geno, SNP Location, GeneExp, GeneLocation
