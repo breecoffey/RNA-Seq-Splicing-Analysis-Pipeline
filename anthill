@@ -37,7 +37,7 @@ done
 
 echo Running Matrix eQTL
 for j in {1..23}; do
-Rscript matrix_eQTL_prac.R "ReorderedSNPGenotype_chr"$j "SNPLoc_chr"$j "Gene_expression_chr"$j "Gene_location_chr"$j;
+Rscript matrix_eQTL.R "ReorderedSNPGenotype_chr"$j "SNPLoc_chr"$j "Gene_expression_chr"$j "Gene_location_chr"$j;
 done
 
 
