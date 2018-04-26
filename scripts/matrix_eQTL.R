@@ -15,12 +15,9 @@ library(MatrixEQTL)
 n = arguments[1]
 
 base.dir = setwd(n)
+strip = gregexpr(pattern = 'chr', text = arguments[5], ignore.case = T)
+CHRnum <- substr(arguments[5], strip, nchar(arguments[5]))
 
-if (nchar(arguments[4]) == 18 ){
-  CHRnum <- substr(arguments[4], 15, 18)
-} else if (nchar(arguments[4] == 19)) {
-  CHRnum <- substr(arguments[4], 15, 19)
-}
 ## Settings
 # Linear model to use, modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 useModel = modelLINEAR; # modelANOVA, modelLINEAR, or modelLINEAR_CROSS
