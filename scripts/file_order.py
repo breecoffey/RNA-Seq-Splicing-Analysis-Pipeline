@@ -31,4 +31,4 @@ data = data[trimmed_names] #order the samples corresponding to the geneExp outpu
 outfile = "Reordered" + args.SNPGeno
 #write to outfile
 with open(outfile, 'w') as out:
-    data.to_csv(path_or_buf = out, sep='\t', compression = 'gzip')
+    data.to_csv(path_or_buf = out, sep='\t',index=False, compression = 'gzip')
