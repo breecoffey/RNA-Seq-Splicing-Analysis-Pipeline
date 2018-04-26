@@ -32,15 +32,16 @@ This splicing analysis pipeline is a novel compilation of computational biology 
        ```
 * `file_reorder.py `
   * Reorders the samples within the Genotype file to match the output from LeafCutter's gene expression files.
-  * ```Input: SNPGenotypes_chrX, Gene_expression_chrX
+  * ```
+       Input: SNPGenotypes_chrX, Gene_expression_chrX
        Output: ReorderedSNPGenotypes_chrX
     ```
 * `matrix_eQTL_parse.R`
   * Tests for association between SNPs and the introns to find which are associated with splicing
   * ```
-  Input: /path/to/test_data/ finalSNPGenotypes_chrX SNPLoc_chrX Gene_expression_chrX Gene_location_chrX
-  Output: cis_eQTLs_X.txt, trans_eQTLs_X.txt, Cis_trans_hist_X.pdf
-  ```
+       Input: /path/to/test_data/ finalSNPGenotypes_chrX SNPLoc_chrX Gene_expression_chrX Gene_location_chrX
+       Output: cis_eQTLs_X.txt, trans_eQTLs_X.txt, Cis_trans_hist_X.pdf
+    ```
 * `AntHill`
   * Runs all scripts in correct order for all 23 chromosomes and outputs intron excision ratios and maps sQTLs.
   
