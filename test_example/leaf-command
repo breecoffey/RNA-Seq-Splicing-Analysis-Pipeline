@@ -1,0 +1,41 @@
+#!/bin/bash
+
+Bamlocation=$1
+LeafcutterLoc=$2
+PATH=$PATH:$LeafcutterLoc/scripts
+
+if [ -e juncfiles.txt ]
+then 
+	rm juncfiles.txt
+fi 
+for bamfile in `ls $Bamlocation/*.bam`
+do         
+	echo Converting $bamfile to $bamfile.junc
+	sh $LeafcutterLoc/scripts/bam2junc.sh $bamfile $bamfile.junc
+	echo $bamfile.junc >> $Bamlocation/juncfiles.txt
+done
+
+python $LeafcutterLoc/clustering/leafcutter_cluster.py -j $Bamlocation/juncfiles.txt -m 50 -o testYRIvsEU -l 500000
+
+if [ -e diff_intron.txt ]
+then
+	rm diff_intron.txt
+fi
+for lib in `cut -f 2 -d'/' $Bamlocation/juncfiles.txt | cut -f 1-4 -d'.' | grep NA`
+do
+	echo $lib NA >> $Bamlocation/diff_intron.txt
+done
+
+for lib in `cut -f 2 -d'/' $Bamlocation/juncfiles.txt | cut -f 1-4 -d'.' | grep HG`
+do
+	echo $lib HG >> $Bamlocation/diff_intron.txt
+done
+
+$LeafcutterLoc/scripts/leafcutter_ds.R --num_threads 4 $Bamlocation/testYRIvsEU_perind_numers.counts.gz $Bamlocation/diff_intron.txt
+
+/usr/local/bin/anaconda32/bin/python $LeafcutterLoc/scripts/prepare_phenotype_table.py $Bamlocation/testYRIvsEU_perind.counts.gz -p 10
+
+for qqnorm in $Bamlocation/*qqnorm*
+do
+	python qqnormparser.py $qqnorm
+done
