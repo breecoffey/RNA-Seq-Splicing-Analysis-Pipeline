@@ -1,6 +1,6 @@
 ## A brief Anthill tutorial with test data
 
-This worked out example will take you through the basics of using the anthill pipeline. The dependencies necessary are shown in the README. All must be in your PATH. Clone this git repo and head to the `text_example` directory.
+This worked out example will take you through the basics of using the anthill pipeline. The dependencies necessary are shown in the README. All must be in your PATH. Clone this git repo and head to the `test_example` directory.
 
 Now, select your data. We have chosen .bam files from the compbio server for this purpose. These .bam files can be found [here](https://www.ebi.ac.uk/arrayexpress/experiments/E-GEUV-1/). Within this test_example directory, you will find a text file called example_bams.txt. Opening it shows the following  
 <details>
