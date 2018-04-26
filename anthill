@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  pipeline.sh
-#  
+#  This is for running ALL the chromosome data for 23 chromosomes. Not to be used for testing.
 #
 #  Created by Bree Coffey on 4/12/18.
 #  
@@ -22,8 +22,8 @@ fi
 if [ "$answer" == "y" ] || [ "$answer" == "Y" ]
 fi
 
-read -p '.bam file directory' bams
-read -p 'LeafCutter install directory' leaf
+read -p '.bam file directory: ' bams
+read -p 'LeafCutter install directory: ' leaf
 
 echo Running LeafCutter
 ./leaf-command $bams $leaf
