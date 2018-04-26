@@ -13,8 +13,9 @@ NA07051.5.M_120131_1.bam
 NA19209.6.M_120217_1.bam   
 NA20519.1.M_111124_5.bam   
 </p>
-</details>
-  
+</details>  
+    
+
 If you are on the compbio server, these files are readily available within the directory `/homes/hwheeler/Data/gEUVADIS_RNASeq` 
 You can copy them all to your directory using:
 
