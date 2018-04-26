@@ -20,7 +20,7 @@ You can copy them all to your directory using:
 
 `while read line; do cp /homes/hwheeler/Data/gEUVADIS_RNASeq/$line /path/to/test_example; done < example_bams.txt`
 
-__Note__: For best results it is best to place all scripts within the same directory as the .bam data, not in an adjacent, sub, or parent directory. This has been done for you.
+__Note__: You need to place all scripts within the same directory as the .bam data, not in an adjacent, sub, or parent directory.
 
 We now want to calculate intron excision ratios run the leaf-command script. To execute the script, use the location of your bamfiles and the location of your leafcutter install directory as arguments
 `./leaf-command /path/to/bamfiles /path/to/leafcutter`
