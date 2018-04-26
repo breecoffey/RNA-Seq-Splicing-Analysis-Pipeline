@@ -7,7 +7,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Input SNP Genotype')
 parser.add_argument('SNPGeno', help='The VCF file to open') #variable for SNP genotype file
 parser.add_argument('GeneExp', help='The gene expression file from leafcutter')
-parser.add_argument('outFile', help='name of the output file') 
+#parser.add_argument('outFile', help='name of the output file') 
 args = parser.parse_args() #parse the arguments
 
 data = pd.read_csv(args.SNPGeno, compression='gzip', sep= '\t', header=0) #read genotype file into DF
@@ -27,6 +27,8 @@ data.filter(items=trimmed_names) #filter out all samples not included in the Gen
 
 data = data[trimmed_names] #order the samples corresponding to the geneExp output
 
+#this script needs to be in the same directory as the SNP Genotype file otherwise output name won't work. 
+outfile = "Reordered" + args.SNPGeno
 #write to outfile
-with open(args.outFile, 'w') as out:
+with open(outfile, 'w') as out:
     data.to_csv(path_or_buf = out, sep='\t', compression = 'gzip')
