@@ -1,21 +1,21 @@
-#argument 1 is always SNP genotype data
-#argument 2 is always SNP location
-#argument 3 is always Gene expression data (in this case intron excision ratios)
-#argument 4 is always Gene location (intron start and stop)
+#argument 1 is the full path to the directory containing all four files
+#argument 2 is always SNP genotype data
+#argument 3 is always SNP location
+#argument 4 is always Gene expression data (in this case intron excision ratios)
+#argument 5 is always Gene location (intron start and stop)
 arguments <- commandArgs(trailingOnly = T)
 # source("Matrix_eQTL_R/Matrix_eQTL_engine.r");
 library(MatrixEQTL)
 
 ## Location of the package with the data files.
-base.dir = setwd ("/homes/" );
+
 
 #for when other things start working
-#setBaseDir <- function()
-#{ 
-#  n <- readline(prompt="Please enter the path to your base directory")
-#}
 
-#base.dir = setwd (n)
+n = arguments[1]
+
+base.dir = setwd(n)
+
 if (nchar(arguments[4]) == 18 ){
   CHRnum <- substr(arguments[4], 15, 18)
 } else if (nchar(arguments[4] == 19)) {
@@ -26,12 +26,12 @@ if (nchar(arguments[4]) == 18 ){
 useModel = modelLINEAR; # modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 
 # Genotype file name
-SNP_file_name = arguments[1];
-snps_location_file_name = arguments[2];
+SNP_file_name = arguments[2];
+snps_location_file_name = arguments[3];
 
 # Gene expression file name
-expression_file_name = arguments[3];
-gene_location_file_name = arguments[4];
+expression_file_name = arguments[4];
+gene_location_file_name = arguments[5];
 
 # Covariates file name
 # Set to character() for no covariates
