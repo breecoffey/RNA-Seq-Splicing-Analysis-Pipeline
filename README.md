@@ -48,7 +48,7 @@ This splicing analysis pipeline is a novel compilation of computational biology 
 ## Downloading the project
 Open a terminal session and enter the following:
 ```
-git clone https://github.com/breecoffey/RNA_Seq_Splicing-Analysis-Pipeline.git
+git clone https://github.com/breecoffey/RNA-Seq-Splicing-Analysis-Pipeline.git
 ```
 ## Input Files
 ### `.vcf.gz`,`.bam`
